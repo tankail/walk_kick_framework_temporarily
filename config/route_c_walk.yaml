@@ -1,0 +1,16 @@
+# Route C WALK policy selector.
+#
+# mode:
+#   h0w_nowaist       -> current Junwei 22-DOF H0W no-waist policy
+#   h1w_locked_waist -> old 23-DOF H1W policy; waist_yaw_joint is held at 0
+#                       and is not sent to H0W hardware
+walk:
+  mode: h1w_locked_waist
+
+  policies:
+    h0w_nowaist: policy/junwei_walk_nowaist_20260627
+    h1w_locked_waist: policy/piplus_walk_20260612_164526
+
+  robot_classes:
+    h0w_nowaist: PiPlus_S_12L8A0G2H0W
+    h1w_locked_waist: PiPlus_S_12L8A0G2H1W

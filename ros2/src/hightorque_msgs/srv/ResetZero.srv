@@ -1,0 +1,11 @@
+# 重置全部电机零位服务
+
+int32 timeout_ms           # 超时时间（毫秒），<=0 时使用默认值 10000ms
+---
+uint8 STATUS_FAILED = 0
+uint8 STATUS_SUCCEEDED = 1
+uint8 STATUS_TIMEOUT = 2
+
+bool success
+uint8 status
+string message

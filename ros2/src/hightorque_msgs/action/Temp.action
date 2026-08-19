@@ -1,0 +1,23 @@
+## lowlevel_controller.action
+# TransitionType
+uint32 TRANSITION_TYPE_LINEAR = 0       # 线性
+uint32 TRANSITION_TYPE_EASEIN = 1       # 快进慢出
+uint32 TRANSITION_TYPE_EASEOUT = 2      # 慢进快出
+uint32 TRANSITION_TYPE_SMOOTHSTEP = 3   # 慢进慢出
+uint32 TRANSITION_TYPE_CUBICSPLINE = 4  # 点数必须大于1 对所有点采样,生成连续的轨迹点,多点轨迹默认0.05一个点
+
+# 目标
+# output选其一即可，优先motorOutput
+sensor_msgs/JointState[] motor_output    # 电机输出
+sensor_msgs/JointState[] robot_0utput    # 关节输出
+string group                            # 关节组 "all", "left_ankle_joint", "right_ankle_joint"
+uint32 type                             # TransitionType
+float64 duration                        # 在0~3的类型使用
+---
+# 结果
+bool success                            # 是否成功
+string error_message                     # 错误信息
+---
+# 反馈
+sensor_msgs/JointState motor_state       # 电机状态
+sensor_msgs/JointState robot_state       # 关节状态

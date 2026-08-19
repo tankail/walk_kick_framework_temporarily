@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CycloneDDS>
+  <Domain>
+    <Discovery>
+      <!-- ParticipantIndex 固定, 避免 auto 模式反复分配耗尽 index -->
+      <ParticipantIndex>0</ParticipantIndex>
+      <MaxAutoParticipantIndex>1000</MaxAutoParticipantIndex>
+    </Discovery>
+  </Domain>
+</CycloneDDS>

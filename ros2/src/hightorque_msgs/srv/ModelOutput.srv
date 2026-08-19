@@ -1,0 +1,14 @@
+# 请求
+float32[] joint_positions    # 电机位置数组
+float32[] joint_velocities   # 电机速度数组
+float32[] imu_data           # IMU数据数组 [angular_velocity_x, angular_velocity_y, angular_velocity_z, roll, pitch, yaw]
+float32 joy_axes_0           # 手柄数据 - linear_y
+float32 joy_axes_1           # 手柄数据 - linear_x
+float32 joy_axes_3           # 手柄数据 - angular_z
+int32 joy_buttons_0          # 手柄按钮0
+int32 joy_buttons_1          # 手柄按钮1
+int32 joy_buttons_2          # 手柄按钮2
+int32 joy_buttons_3          # 手柄按钮3
+---
+# 响应
+float32[] target_pos            # 模型输出的力矩

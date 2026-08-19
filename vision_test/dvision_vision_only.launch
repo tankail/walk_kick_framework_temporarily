@@ -1,0 +1,44 @@
+<launch>
+  <!-- ============================================================
+       dvision 视觉单独测试 launch (walk_kick_framework)
+       - 不启动 dancer-io / dbehavior / dplanner / 走路 / 踢球
+       - 强制 VISION_ONLY mode (有 /ZJUDancer/VisionOnlyMode: True 日志)
+       - OfflineRecord=true 让 dvision 发布 /dvision_1/cam_image,
+         供 vision_web_overlay.py 做 web 叠加 (http://<robot-ip>:8090)
+       - 其余参数与 zed_default.launch 完全一致
+       用法: 由 start_vision_test.sh 调用, 勿手动 roslaunch 到已有 roscore 之外
+       ============================================================ -->
+
+  <!-- 1) 先加载 global.yml (内含 OfflineRecord=false / VisionOnlyMode=false) -->
+  <rosparam command="load" file="$(find dconfig)/global.yml"/>
+
+  <!-- 2) 覆盖成 视觉单独测试 模式 + 发布 cam_image -->
+  <param name="/ZJUDancer/VisionOnlyMode" type="bool" value="true"/>
+  <param name="/ZJUDancer/OfflineRecord" type="bool" value="true"/>
+
+  <!-- 3) dvision 节点 (参数同 zed_default.launch) -->
+  <node pkg="dvision"
+        name="dvision_$(env ZJUDANCER_ROBOTID)"
+        type="dvision_node"
+        output="screen"
+        respawn="false"
+        required="true"
+        cwd="node"
+        args="">
+
+    <!-- 日志级别 -->
+    <env name="ROSCONSOLE_CONFIG_FILE" value="$(find dlaunch)/drosconsole.conf"/>
+    <env name="DVISION_CAPTURE_DIR" value="$(find dvision)/camera/hum_data"/>
+
+    <!-- 私有参数 -->
+    <param name="RobotId" value="$(env ZJUDANCER_ROBOTID)"/>
+    <param name="dvision/object_detector/home_folder" value="$(env HOME)"/>
+    <rosparam command="load" file="$(find dconfig)/$(env ZJUDANCER_ROBOTID)/dvision/misc.yml"/>
+    <rosparam command="load" file="$(find dconfig)/$(env ZJUDANCER_ROBOTID)/dvision/localization.yml"/>
+    <rosparam command="load" file="$(find dvision)/config/localization.yml"/>
+    <rosparam command="load" file="$(find dvision)/config/field_features.yml"/>
+    <rosparam command="load" file="$(find dconfig)/$(env ZJUDANCER_ROBOTID)/dvision/camera.yml"/>
+    <param name="dvision/object_detector/input_model_file" value="$(find dvision)/model/best26.engine"/>
+    <param name="dvision/object_detector/input_names_file" value="$(find dvision)/model/hum.names"/>
+  </node>
+</launch>

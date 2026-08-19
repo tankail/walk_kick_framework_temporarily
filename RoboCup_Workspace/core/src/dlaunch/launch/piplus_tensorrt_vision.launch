@@ -1,0 +1,5 @@
+<launch>
+  <include file="$(find dancer-io)/launch/dancer-io.launch" />
+  <include file="$(find dplanner)/launch/default.launch" />
+  <include file="$(find dbehavior)/launch/default.launch" />
+</launch>

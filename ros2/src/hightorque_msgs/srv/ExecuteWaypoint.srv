@@ -1,0 +1,8 @@
+# Request: execute a waypoint action by name
+string action_name
+
+---
+# Response
+bool success
+string message
+float64 estimated_duration

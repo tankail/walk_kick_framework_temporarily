@@ -1,0 +1,7 @@
+core/devel
+core/build
+lib/devel
+lib/build
+core/.catkin_workspace
+lib/.catkin_workspace
+core/src/dconfig/global.yml

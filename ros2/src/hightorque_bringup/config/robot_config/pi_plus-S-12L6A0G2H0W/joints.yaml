@@ -1,0 +1,56 @@
+name: "PiPlus_S-12L6A0G2H0W"
+
+dofs: 20
+
+max_power: 300.0 # 最大功率限制
+max_power_duration: 3.0 # 最大功率持续时间限制
+
+kinematics_plugin:
+  name: ""
+
+joint_names: [
+ "l_ankle_roll_joint", "l_ankle_pitch_joint", "l_calf_joint", "l_thigh_joint", "l_hip_roll_joint", "l_hip_pitch_joint",
+ "r_ankle_roll_joint", "r_ankle_pitch_joint", "r_calf_joint", "r_thigh_joint", "r_hip_roll_joint", "r_hip_pitch_joint",
+ "l_shoulder_pitch_joint", "l_shoulder_roll_joint", "l_upper_arm_joint",
+ "r_shoulder_pitch_joint", "r_shoulder_roll_joint", "r_upper_arm_joint",
+ "head_yaw_joint", "head_pitch_joint"]
+
+map_index: [ 0,  1,  2,  3,  4,  5,
+             6,  7,  8,  9, 10, 11,
+            12, 13, 14,
+            15, 16, 17,
+            18, 19]
+
+direction: [1,  1, -1, -1,  1,  1,
+            1, -1,  1, -1,  1, -1,
+            1,  1, -1,
+           -1,  1, -1,
+            1,  1]
+
+lower: [-3.14, -3.14, -3.14, -3.14, -3.14, -3.14,
+        -3.14, -3.14, -3.14, -3.14, -3.14, -3.14,
+        -3.14, -3.14, -3.14, -3.14,
+        -3.14, -3.14, -3.14, -3.14,
+        -1.57]
+upper: [ 3.14,  3.14,  3.14,  3.14,  3.14,  3.14,
+         3.14,  3.14,  3.14,  3.14,  3.14,  3.14,
+         3.14,  3.14,  3.14,
+         3.14,  3.14,  3.14,
+         1.57,  1.57]
+
+kp: [110, 110, 110, 110, 110, 110,
+     110, 110, 110, 110, 110, 110,
+     60, 60, 60,
+     60, 60, 60,
+     60, 60]
+kd: [1.1, 1.4, 1.1, 1.1, 1.1, 1.1,
+     1.1, 1.4, 1.1, 1.1, 1.1, 1.1,
+     0.3, 0.3, 0.3,
+     0.3, 0.3, 0.3,
+     0.3, 0.3]
+
+urdf_offset: [ 0.00,  0.00,  0.00,  0.00,  0.00,  0.00,
+               0.00,  0.00,  0.00,  0.00,  0.00,  0.00,
+               1.57, -1.57,  0.00,
+               1.57,  1.57,  0.00,
+               0.00,  0.00]

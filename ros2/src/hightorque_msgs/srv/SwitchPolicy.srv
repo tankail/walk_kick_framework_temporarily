@@ -1,0 +1,8 @@
+# Request: switch to a specific policy by name
+string policy_name
+
+---
+# Response
+bool success
+string message
+string current_policy

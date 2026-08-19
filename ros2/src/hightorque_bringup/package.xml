@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>hightorque_bringup</name>
+  <version>1.0.0</version>
+  <description>Hightorque robot bringup package with centralized configuration</description>
+  <maintainer email="dev@hightorque.com">Hightorque Team</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>sim2real_master</exec_depend>
+  <exec_depend>hightorque_motor_manager</exec_depend>
+  <exec_depend>yesense_imu_ros2</exec_depend>
+  <exec_depend>hightorque_oled</exec_depend>
+  <exec_depend>hightorque_power</exec_depend>
+  <exec_depend>joy_linux</exec_depend>
+  <exec_depend>humanoid_driver</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

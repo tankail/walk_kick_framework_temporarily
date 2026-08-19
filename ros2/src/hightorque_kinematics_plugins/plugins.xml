@@ -1,0 +1,18 @@
+<library path="hightorque_kinematics_plugins">
+  <class
+    name="hightorque/NoOpKinematicsPlugin"
+    type="hightorque::NoOpKinematicsPlugin"
+    base_class_type="hightorque::KinematicsPlugin">
+    <description>
+      No-op example plugin that forwards joint data without modification.
+    </description>
+  </class>
+  <class
+    name="hightorque/HeadInvertKinematicsPlugin"
+    type="hightorque::HeadInvertKinematicsPlugin"
+    base_class_type="hightorque::KinematicsPlugin">
+    <description>
+      Inverts head_yaw_joint and head_pitch_joint for state publishing and motor commands.
+    </description>
+  </class>
+</library>

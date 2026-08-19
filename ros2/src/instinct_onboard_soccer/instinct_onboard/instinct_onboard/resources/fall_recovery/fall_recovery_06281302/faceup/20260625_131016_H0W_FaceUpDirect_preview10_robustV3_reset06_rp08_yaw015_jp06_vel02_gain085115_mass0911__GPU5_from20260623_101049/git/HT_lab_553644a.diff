@@ -1,0 +1,648 @@
+--- git status ---
+On branch fall_recovery
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   source/HT_lab/HT_lab/assets/PiPlus_S_12L8A0G2H0W.py
+	modified:   source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/__init__.py
+	modified:   source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/fall_recovery_beyondmimic_cfg.py
+	modified:   source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/motions/fall_recovery_h0w_facedown.yaml
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/fall_beyondmimic_cfg.py
+	source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/motions/fall_h0w.yaml
+	source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/motions/fall_recovery_h0w_facedown_quick.yaml
+	source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/motions/fall_recovery_h0w_mixed_faceup_direct_facedown.yaml
+	tests/
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/source/HT_lab/HT_lab/assets/PiPlus_S_12L8A0G2H0W.py b/source/HT_lab/HT_lab/assets/PiPlus_S_12L8A0G2H0W.py
+index fa3acae..d411bbf 100644
+--- a/source/HT_lab/HT_lab/assets/PiPlus_S_12L8A0G2H0W.py
++++ b/source/HT_lab/HT_lab/assets/PiPlus_S_12L8A0G2H0W.py
+@@ -27,6 +27,7 @@ joint name order (from isaacsim):
+ 
+ PiPlus_S_12L8A0G2H0W_CFG = ArticulationCfg(
+     spawn=sim_utils.UrdfFileCfg(
++        usd_dir=os.path.expanduser("~/tmp/IsaacLab/usd/PiPlus_S_12L8A0G2H0W"),
+         fix_base=False,
+         replace_cylinders_with_capsules=True,
+         asset_path=f"{__file_dir__}/PiPlus_S_12L8A0G2H0W/urdf/PiPlus_S_12L8A0G2H0W.urdf",
+diff --git a/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/__init__.py b/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/__init__.py
+index 0dbcda5..9c34c0e 100644
+--- a/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/__init__.py
++++ b/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/__init__.py
+@@ -54,6 +54,82 @@ gym.register(
+ )
+ 
+ 
++gym.register(
++    id="Test-BeyondMimic-FallRecovery-PiPlus-H0W-FaceDownQuick-v0",
++    entry_point="instinctlab.envs:InstinctRlEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": f"{task_entry}.fall_recovery_beyondmimic_cfg:PiPlusH0WFaceDownQuickFallRecoveryEnvCfg",
++        "instinct_rl_cfg_entry_point": (f"{agents.__name__}.beyondmimic_ppo_cfg:PiPlusH0WFallRecoveryPPORunnerCfg"),
++    },
++)
++
++
++gym.register(
++    id="Test-BeyondMimic-FallRecovery-PiPlus-H0W-FaceDownQuick-Play-v0",
++    entry_point="instinctlab.envs:InstinctRlEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": (
++            f"{task_entry}.fall_recovery_beyondmimic_cfg:PiPlusH0WFaceDownQuickFallRecoveryEnvCfg_PLAY"
++        ),
++        "instinct_rl_cfg_entry_point": (f"{agents.__name__}.beyondmimic_ppo_cfg:PiPlusH0WFallRecoveryPPORunnerCfg"),
++    },
++)
++
++
++gym.register(
++    id="Test-BeyondMimic-FallRecovery-PiPlus-H0W-FaceDownQuickRobustV1-v0",
++    entry_point="instinctlab.envs:InstinctRlEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": (
++            f"{task_entry}.fall_recovery_beyondmimic_cfg:" "PiPlusH0WFaceDownQuickRobustV1FallRecoveryEnvCfg"
++        ),
++        "instinct_rl_cfg_entry_point": (f"{agents.__name__}.beyondmimic_ppo_cfg:PiPlusH0WFallRecoveryPPORunnerCfg"),
++    },
++)
++
++
++gym.register(
++    id="Test-BeyondMimic-FallRecovery-PiPlus-H0W-FaceDownQuickRobustV1-Play-v0",
++    entry_point="instinctlab.envs:InstinctRlEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": (
++            f"{task_entry}.fall_recovery_beyondmimic_cfg:" "PiPlusH0WFaceDownQuickRobustV1FallRecoveryEnvCfg_PLAY"
++        ),
++        "instinct_rl_cfg_entry_point": (f"{agents.__name__}.beyondmimic_ppo_cfg:PiPlusH0WFallRecoveryPPORunnerCfg"),
++    },
++)
++
++
++gym.register(
++    id="Test-BeyondMimic-FallRecovery-PiPlus-H0W-MixedFaceUpDirectFaceDown-v0",
++    entry_point="instinctlab.envs:InstinctRlEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": (
++            f"{task_entry}.fall_recovery_beyondmimic_cfg:" "PiPlusH0WMixedFaceUpDirectFaceDownFallRecoveryEnvCfg"
++        ),
++        "instinct_rl_cfg_entry_point": (f"{agents.__name__}.beyondmimic_ppo_cfg:PiPlusH0WFallRecoveryPPORunnerCfg"),
++    },
++)
++
++
++gym.register(
++    id="Test-BeyondMimic-FallRecovery-PiPlus-H0W-MixedFaceUpDirectFaceDown-Play-v0",
++    entry_point="instinctlab.envs:InstinctRlEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": (
++            f"{task_entry}.fall_recovery_beyondmimic_cfg:" "PiPlusH0WMixedFaceUpDirectFaceDownFallRecoveryEnvCfg_PLAY"
++        ),
++        "instinct_rl_cfg_entry_point": (f"{agents.__name__}.beyondmimic_ppo_cfg:PiPlusH0WFallRecoveryPPORunnerCfg"),
++    },
++)
++
++
+ gym.register(
+     id="Test-BeyondMimic-FallRecovery-PiPlus-H0W-FaceUpDirect-v0",
+     entry_point="instinctlab.envs:InstinctRlEnv",
+@@ -129,6 +205,33 @@ gym.register(
+ )
+ 
+ 
++gym.register(
++    id="Test-BeyondMimic-FallRecovery-PiPlus-H0W-FaceUpDirectPreview10RobustV3-v0",
++    entry_point="instinctlab.envs:InstinctRlEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": (
++            f"{task_entry}.fall_recovery_beyondmimic_cfg:" "PiPlusH0WFaceUpDirectPreview10RobustV3FallRecoveryEnvCfg"
++        ),
++        "instinct_rl_cfg_entry_point": (f"{agents.__name__}.beyondmimic_ppo_cfg:PiPlusH0WFallRecoveryPPORunnerCfg"),
++    },
++)
++
++
++gym.register(
++    id="Test-BeyondMimic-FallRecovery-PiPlus-H0W-FaceUpDirectPreview10RobustV3-Play-v0",
++    entry_point="instinctlab.envs:InstinctRlEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": (
++            f"{task_entry}.fall_recovery_beyondmimic_cfg:"
++            "PiPlusH0WFaceUpDirectPreview10RobustV3FallRecoveryEnvCfg_PLAY"
++        ),
++        "instinct_rl_cfg_entry_point": (f"{agents.__name__}.beyondmimic_ppo_cfg:PiPlusH0WFallRecoveryPPORunnerCfg"),
++    },
++)
++
++
+ gym.register(
+     id="Test-BeyondMimic-FallRecovery-PiPlus-H0W-FaceUpDirectRobustV1-v0",
+     entry_point="instinctlab.envs:InstinctRlEnv",
+@@ -153,3 +256,25 @@ gym.register(
+         "instinct_rl_cfg_entry_point": (f"{agents.__name__}.beyondmimic_ppo_cfg:PiPlusH0WFallRecoveryPPORunnerCfg"),
+     },
+ )
++
++
++gym.register(
++    id="Test-BeyondMimic-Fall-PiPlus-H0W-v0",
++    entry_point="instinctlab.envs:InstinctRlEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": f"{task_entry}.fall_beyondmimic_cfg:PiPlusH0WFallEnvCfg",
++        "instinct_rl_cfg_entry_point": (f"{agents.__name__}.beyondmimic_ppo_cfg:PiPlusH0WFallRecoveryPPORunnerCfg"),
++    },
++)
++
++
++gym.register(
++    id="Test-BeyondMimic-Fall-PiPlus-H0W-Play-v0",
++    entry_point="instinctlab.envs:InstinctRlEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": f"{task_entry}.fall_beyondmimic_cfg:PiPlusH0WFallEnvCfg_PLAY",
++        "instinct_rl_cfg_entry_point": (f"{agents.__name__}.beyondmimic_ppo_cfg:PiPlusH0WFallRecoveryPPORunnerCfg"),
++    },
++)
+diff --git a/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/fall_recovery_beyondmimic_cfg.py b/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/fall_recovery_beyondmimic_cfg.py
+index 8777cae..3a7d3c6 100644
+--- a/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/fall_recovery_beyondmimic_cfg.py
++++ b/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/fall_recovery_beyondmimic_cfg.py
+@@ -28,8 +28,10 @@ __file_dir__ = os.path.dirname(os.path.realpath(__file__))
+ 
+ FACEUP_MOTION_NAME = "fall_recovery_h0w_faceup"
+ FACEDOWN_MOTION_NAME = "fall_recovery_h0w_facedown"
++FACEDOWN_QUICK_MOTION_NAME = "fall_recovery_h0w_facedown_quick"
+ FACEUP_DIRECT_MOTION_NAME = "fall_recovery_h0w_faceup_direct"
+ FACEUP_DIRECT_PREVIEW10_MOTION_NAME = "fall_recovery_h0w_faceup_direct_preview10"
++MIXED_FACEUP_DIRECT_FACEDOWN_MOTION_NAME = "fall_recovery_h0w_mixed_faceup_direct_facedown"
+ MOTION_DATA_DIR = os.path.expanduser("~/Datasets/lafan_retarget/PiPlus_S_12L8A0G2H0W/cropped_npz")
+ 
+ PIPLUS_H0W_CFG = copy.deepcopy(PiPlus_S_12L8A0G2H0W_CFG)
+@@ -167,6 +169,28 @@ PIPLUS_H0W_FACEUP_DIRECT_LOWER_BODY_LINK_ROT_LINKS = [
+     "r_ankle_roll_link",
+ ]
+ 
++PIPLUS_H0W_FACEDOWN_ARM_SUPPORT_JOINTS = [
++    "l_shoulder_pitch_joint",
++    "r_shoulder_pitch_joint",
++    "l_shoulder_roll_joint",
++    "r_shoulder_roll_joint",
++    "l_upper_arm_joint",
++    "r_upper_arm_joint",
++    "l_elbow_joint",
++    "r_elbow_joint",
++]
++
++PIPLUS_H0W_FACEDOWN_ARM_SUPPORT_LINK_ROT_LINKS = [
++    "l_shoulder_roll_link",
++    "r_shoulder_roll_link",
++    "l_upper_arm_link",
++    "r_upper_arm_link",
++    "l_elbow_link",
++    "r_elbow_link",
++    "l_wrist_link",
++    "r_wrist_link",
++]
++
+ 
+ @configclass
+ class PiPlusH0WFaceUpFallRecoveryMotionCfg(AmassMotionCfgBase):
+@@ -204,6 +228,24 @@ class PiPlusH0WFaceDownFallRecoveryMotionCfg(AmassMotionCfgBase):
+     motion_bin_length_s = 1.0
+ 
+ 
++@configclass
++class PiPlusH0WFaceDownQuickFallRecoveryMotionCfg(AmassMotionCfgBase):
++    path = MOTION_DATA_DIR
++    retargetting_func = None
++    filtered_motion_selection_filepath = os.path.join(
++        __file_dir__,
++        "motions",
++        "fall_recovery_h0w_facedown_quick.yaml",
++    )
++    motion_start_from_middle_range = [0.0, 0.0]
++    motion_start_height_offset = 0.0
++    ensure_link_below_zero_ground = False
++    buffer_device = "output_device"
++    motion_interpolate_func = motion_interpolate_bilinear
++    velocity_estimation_method = "frontbackward"
++    motion_bin_length_s = 1.0
++
++
+ @configclass
+ class PiPlusH0WFaceUpDirectFallRecoveryMotionCfg(AmassMotionCfgBase):
+     path = MOTION_DATA_DIR
+@@ -240,6 +282,24 @@ class PiPlusH0WFaceUpDirectPreview10FallRecoveryMotionCfg(AmassMotionCfgBase):
+     motion_bin_length_s = 1.0
+ 
+ 
++@configclass
++class PiPlusH0WMixedFaceUpDirectFaceDownFallRecoveryMotionCfg(AmassMotionCfgBase):
++    path = MOTION_DATA_DIR
++    retargetting_func = None
++    filtered_motion_selection_filepath = os.path.join(
++        __file_dir__,
++        "motions",
++        "fall_recovery_h0w_mixed_faceup_direct_facedown.yaml",
++    )
++    motion_start_from_middle_range = [0.0, 0.0]
++    motion_start_height_offset = 0.0
++    ensure_link_below_zero_ground = False
++    buffer_device = "output_device"
++    motion_interpolate_func = motion_interpolate_bilinear
++    velocity_estimation_method = "frontbackward"
++    motion_bin_length_s = 1.0
++
++
+ def _make_motion_reference_cfg(
+     motion_name: str,
+     motion_cfg: AmassMotionCfgBase,
+@@ -274,6 +334,11 @@ facedown_motion_reference_cfg = _make_motion_reference_cfg(
+     PiPlusH0WFaceDownFallRecoveryMotionCfg(),
+     link_of_interests=PIPLUS_H0W_FACEDOWN_LINKS_OF_INTEREST,
+ )
++facedown_quick_motion_reference_cfg = _make_motion_reference_cfg(
++    FACEDOWN_QUICK_MOTION_NAME,
++    PiPlusH0WFaceDownQuickFallRecoveryMotionCfg(),
++    link_of_interests=PIPLUS_H0W_FACEDOWN_LINKS_OF_INTEREST,
++)
+ faceup_direct_motion_reference_cfg = _make_motion_reference_cfg(
+     FACEUP_DIRECT_MOTION_NAME,
+     PiPlusH0WFaceUpDirectFallRecoveryMotionCfg(),
+@@ -282,6 +347,10 @@ faceup_direct_preview10_motion_reference_cfg = _make_motion_reference_cfg(
+     FACEUP_DIRECT_PREVIEW10_MOTION_NAME,
+     PiPlusH0WFaceUpDirectPreview10FallRecoveryMotionCfg(),
+ )
++mixed_faceup_direct_facedown_motion_reference_cfg = _make_motion_reference_cfg(
++    MIXED_FACEUP_DIRECT_FACEDOWN_MOTION_NAME,
++    PiPlusH0WMixedFaceUpDirectFaceDownFallRecoveryMotionCfg(),
++)
+ 
+ 
+ @configclass
+@@ -416,6 +485,115 @@ class PiPlusH0WFaceDownFallRecoveryEnvCfg(PiPlusH0WFallRecoveryBaseEnvCfg):
+         )
+ 
+ 
++@configclass
++class PiPlusH0WFaceDownQuickFallRecoveryEnvCfg(PiPlusH0WFaceDownFallRecoveryEnvCfg):
++    scene: beyondmimic_cfg.BeyondMimicSceneCfg = beyondmimic_cfg.BeyondMimicSceneCfg(
++        num_envs=512,
++        robot=PIPLUS_H0W_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot"),
++        motion_reference=facedown_quick_motion_reference_cfg,
++    )
++
++    def __post_init__(self):
++        super().__post_init__()
++        self._tune_facedown_quick_arm_support_rewards()
++        self.run_name = "H0W_FallRecovery_facedown_quick_armV2"
++
++    def _tune_facedown_quick_arm_support_rewards(self):
++        self.rewards.rewards.facedown_quick_arm_joint_pos_imitation_gauss = RewTermCfg(
++            func=instinct_mdp.joint_pos_imitation_gauss,
++            weight=0.35,
++            params={
++                "asset_cfg": SceneEntityCfg(
++                    "robot",
++                    joint_names=PIPLUS_H0W_FACEDOWN_ARM_SUPPORT_JOINTS,
++                    preserve_order=True,
++                ),
++                "reference_cfg": SceneEntityCfg(
++                    "motion_reference",
++                    joint_names=PIPLUS_H0W_FACEDOWN_ARM_SUPPORT_JOINTS,
++                    preserve_order=True,
++                ),
++                "combine_method": "mean_prod",
++                "std": 0.55,
++                "masked": True,
++            },
++        )
++        self.rewards.rewards.facedown_quick_arm_link_rot_imitation_gauss = RewTermCfg(
++            func=instinct_mdp.link_rot_imitation_gauss,
++            weight=0.35,
++            params={
++                "asset_cfg": SceneEntityCfg("robot"),
++                "reference_cfg": SceneEntityCfg(
++                    "motion_reference",
++                    body_names=PIPLUS_H0W_FACEDOWN_ARM_SUPPORT_LINK_ROT_LINKS,
++                    preserve_order=True,
++                ),
++                "combine_method": "mean_prod",
++                "in_base_frame": False,
++                "in_relative_world_frame": True,
++                "std": 0.6,
++                "masked": True,
++            },
++        )
++        self.rewards.rewards.facedown_quick_arm_torque_limit = RewTermCfg(
++            func=instinct_mdp.applied_torque_limits_by_ratio,
++            weight=-0.04,
++            params={
++                "asset_cfg": SceneEntityCfg(
++                    "robot",
++                    joint_names=PIPLUS_H0W_FACEDOWN_ARM_SUPPORT_JOINTS,
++                    preserve_order=True,
++                ),
++                "limit_ratio": 0.40,
++            },
++        )
++
++
++@configclass
++class PiPlusH0WFaceDownQuickRobustV1FallRecoveryEnvCfg(PiPlusH0WFaceDownQuickFallRecoveryEnvCfg):
++    def __post_init__(self):
++        super().__post_init__()
++        self._tune_facedown_quick_robust_v1_randomization()
++        self.run_name = "H0W_FallRecovery_facedown_quick_robustV1"
++
++    def _tune_facedown_quick_robust_v1_randomization(self):
++        self.events.reset_robot.params["randomize_pose_range"] = {
++            "x": (-0.03, 0.03),
++            "y": (-0.03, 0.03),
++            "z": (0.0, 0.0),
++            "roll": (-0.03, 0.03),
++            "pitch": (-0.03, 0.03),
++            "yaw": (-0.06, 0.06),
++        }
++        self.events.reset_robot.params["randomize_velocity_range"] = {}
++        self.events.reset_robot.params["randomize_joint_pos_range"] = (-0.03, 0.03)
++        self.events.randomize_actuator_gains = EventTermCfg(
++            func=mdp.randomize_actuator_gains,
++            mode="startup",
++            params={
++                "asset_cfg": SceneEntityCfg("robot", joint_names=".*"),
++                "stiffness_distribution_params": (0.9, 1.1),
++                "damping_distribution_params": (0.9, 1.1),
++                "operation": "scale",
++                "distribution": "uniform",
++            },
++        )
++
++
++@configclass
++class PiPlusH0WMixedFaceUpDirectFaceDownFallRecoveryEnvCfg(PiPlusH0WFallRecoveryBaseEnvCfg):
++    scene: beyondmimic_cfg.BeyondMimicSceneCfg = beyondmimic_cfg.BeyondMimicSceneCfg(
++        num_envs=512,
++        robot=PIPLUS_H0W_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot"),
++        motion_reference=mixed_faceup_direct_facedown_motion_reference_cfg,
++    )
++
++    def __post_init__(self):
++        super().__post_init__()
++        self.terminations.base_pg_too_far.params["projected_gravity_threshold"] = 1.5
++        self.run_name = "H0W_FallRecovery_mixed_faceupDirect_facedown_v1"
++
++
+ @configclass
+ class PiPlusH0WFaceUpDirectFallRecoveryEnvCfg(PiPlusH0WFallRecoveryBaseEnvCfg):
+     scene: beyondmimic_cfg.BeyondMimicSceneCfg = beyondmimic_cfg.BeyondMimicSceneCfg(
+@@ -589,6 +767,64 @@ class PiPlusH0WFaceUpDirectPreview10RobustV2FallRecoveryEnvCfg(PiPlusH0WFaceUpDi
+         )
+ 
+ 
++@configclass
++class PiPlusH0WFaceUpDirectPreview10RobustV3FallRecoveryEnvCfg(PiPlusH0WFaceUpDirectPreview10FallRecoveryEnvCfg):
++    def __post_init__(self):
++        super().__post_init__()
++        self._tune_preview10_robust_v3_randomization()
++        self.run_name = "H0W_FaceUpDirect_preview10_robustV3_reset06_rp08_yaw015_jp06_vel02_gain085115_mass0911"
++
++    def _tune_preview10_robust_v3_randomization(self):
++        self.events.reset_robot.params["randomize_pose_range"] = {
++            "x": (-0.06, 0.06),
++            "y": (-0.06, 0.06),
++            "z": (0.0, 0.0),
++            "roll": (-0.08, 0.08),
++            "pitch": (-0.08, 0.08),
++            "yaw": (-0.15, 0.15),
++        }
++        self.events.reset_robot.params["randomize_velocity_range"] = {
++            "x": (-0.1, 0.1),
++            "y": (-0.1, 0.1),
++            "z": (-0.05, 0.05),
++            "roll": (-0.2, 0.2),
++            "pitch": (-0.2, 0.2),
++            "yaw": (-0.2, 0.2),
++        }
++        self.events.reset_robot.params["randomize_joint_pos_range"] = (-0.06, 0.06)
++        self.events.randomize_actuator_gains = EventTermCfg(
++            func=mdp.randomize_actuator_gains,
++            mode="startup",
++            params={
++                "asset_cfg": SceneEntityCfg("robot", joint_names=".*"),
++                "stiffness_distribution_params": (0.85, 1.15),
++                "damping_distribution_params": (0.85, 1.15),
++                "operation": "scale",
++                "distribution": "uniform",
++            },
++        )
++        self.events.randomize_rigid_body_mass = EventTermCfg(
++            func=mdp.randomize_rigid_body_mass,
++            mode="startup",
++            params={
++                "asset_cfg": SceneEntityCfg(
++                    "robot",
++                    body_names=[
++                        "base_link",
++                        "torso_link",
++                        "l_ankle.*",
++                        "r_ankle.*",
++                        "l_upper_arm.*",
++                        "r_upper_arm.*",
++                    ],
++                ),
++                "mass_distribution_params": (0.9, 1.1),
++                "operation": "scale",
++                "distribution": "uniform",
++            },
++        )
++
++
+ @configclass
+ class PiPlusH0WFaceUpDirectRobustV1FallRecoveryEnvCfg(PiPlusH0WFaceUpDirectFallRecoveryEnvCfg):
+     def __post_init__(self):
+@@ -805,6 +1041,45 @@ class PiPlusH0WFaceUpDirectPreview10RobustV2FallRecoveryEnvCfg_PLAY(
+             cmd.debug_vis = True
+ 
+ 
++@configclass
++class PiPlusH0WFaceUpDirectPreview10RobustV3FallRecoveryEnvCfg_PLAY(
++    PiPlusH0WFaceUpDirectPreview10RobustV3FallRecoveryEnvCfg
++):
++    scene: beyondmimic_cfg.BeyondMimicSceneCfg = beyondmimic_cfg.BeyondMimicSceneCfg(
++        num_envs=1,
++        env_spacing=2.5,
++        robot=PIPLUS_H0W_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot"),
++        robot_reference=PIPLUS_H0W_CFG.replace(prim_path="{ENV_REGEX_NS}/RobotReference"),
++        motion_reference=faceup_direct_preview10_motion_reference_cfg.replace(debug_vis=True),
++    )
++    viewer: ViewerCfg = ViewerCfg(
++        eye=[4.0, 0.75, 1.0],
++        lookat=[0.0, 0.75, 0.0],
++        origin_type="asset_root",
++        asset_name="robot",
++    )
++
++    def __post_init__(self):
++        super().__post_init__()
++
++        motion_name = list(self.scene.motion_reference.motion_buffers.keys())[0]
++        self.scene.motion_reference.motion_buffers[motion_name].motion_start_from_middle_range = [0.0, 0.0]
++        self.scene.motion_reference.motion_buffers[motion_name].motion_bin_length_s = None
++        self.scene.motion_reference.visualizing_marker_types = ["relative_links"]
++        self.episode_length_s = 6000.0
++        self.curriculum.beyond_adaptive_sampling = None
++        self.events.bin_fail_counter_smoothing = None
++
++        for term in self.terminations.__dict__.values():
++            if term is None:
++                continue
++            if "print_reason" in term.params:
++                term.params["print_reason"] = True
++
++        for cmd in self.commands.__dict__.values():
++            cmd.debug_vis = True
++
++
+ @configclass
+ class PiPlusH0WFaceUpDirectRobustV1FallRecoveryEnvCfg_PLAY(PiPlusH0WFaceUpDirectRobustV1FallRecoveryEnvCfg):
+     scene: beyondmimic_cfg.BeyondMimicSceneCfg = beyondmimic_cfg.BeyondMimicSceneCfg(
+@@ -877,3 +1152,114 @@ class PiPlusH0WFaceDownFallRecoveryEnvCfg_PLAY(PiPlusH0WFaceDownFallRecoveryEnvC
+ 
+         for cmd in self.commands.__dict__.values():
+             cmd.debug_vis = True
++
++
++@configclass
++class PiPlusH0WFaceDownQuickFallRecoveryEnvCfg_PLAY(PiPlusH0WFaceDownQuickFallRecoveryEnvCfg):
++    scene: beyondmimic_cfg.BeyondMimicSceneCfg = beyondmimic_cfg.BeyondMimicSceneCfg(
++        num_envs=1,
++        env_spacing=2.5,
++        robot=PIPLUS_H0W_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot"),
++        robot_reference=PIPLUS_H0W_CFG.replace(prim_path="{ENV_REGEX_NS}/RobotReference"),
++        motion_reference=facedown_quick_motion_reference_cfg.replace(debug_vis=True),
++    )
++    viewer: ViewerCfg = ViewerCfg(
++        eye=[4.0, 0.75, 1.0],
++        lookat=[0.0, 0.75, 0.0],
++        origin_type="asset_root",
++        asset_name="robot",
++    )
++
++    def __post_init__(self):
++        super().__post_init__()
++
++        motion_name = list(self.scene.motion_reference.motion_buffers.keys())[0]
++        self.scene.motion_reference.motion_buffers[motion_name].motion_start_from_middle_range = [0.0, 0.0]
++        self.scene.motion_reference.motion_buffers[motion_name].motion_bin_length_s = None
++        self.scene.motion_reference.visualizing_marker_types = ["relative_links"]
++        self.episode_length_s = 6000.0
++        self.curriculum.beyond_adaptive_sampling = None
++        self.events.bin_fail_counter_smoothing = None
++
++        for term in self.terminations.__dict__.values():
++            if term is None:
++                continue
++            if "print_reason" in term.params:
++                term.params["print_reason"] = True
++
++        for cmd in self.commands.__dict__.values():
++            cmd.debug_vis = True
++
++
++@configclass
++class PiPlusH0WFaceDownQuickRobustV1FallRecoveryEnvCfg_PLAY(PiPlusH0WFaceDownQuickRobustV1FallRecoveryEnvCfg):
++    scene: beyondmimic_cfg.BeyondMimicSceneCfg = beyondmimic_cfg.BeyondMimicSceneCfg(
++        num_envs=1,
++        env_spacing=2.5,
++        robot=PIPLUS_H0W_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot"),
++        robot_reference=PIPLUS_H0W_CFG.replace(prim_path="{ENV_REGEX_NS}/RobotReference"),
++        motion_reference=facedown_quick_motion_reference_cfg.replace(debug_vis=True),
++    )
++    viewer: ViewerCfg = ViewerCfg(
++        eye=[4.0, 0.75, 1.0],
++        lookat=[0.0, 0.75, 0.0],
++        origin_type="asset_root",
++        asset_name="robot",
++    )
++
++    def __post_init__(self):
++        super().__post_init__()
++
++        motion_name = list(self.scene.motion_reference.motion_buffers.keys())[0]
++        self.scene.motion_reference.motion_buffers[motion_name].motion_start_from_middle_range = [0.0, 0.0]
++        self.scene.motion_reference.motion_buffers[motion_name].motion_bin_length_s = None
++        self.scene.motion_reference.visualizing_marker_types = ["relative_links"]
++        self.episode_length_s = 6000.0
++        self.curriculum.beyond_adaptive_sampling = None
++        self.events.bin_fail_counter_smoothing = None
++
++        for term in self.terminations.__dict__.values():
++            if term is None:
++                continue
++            if "print_reason" in term.params:
++                term.params["print_reason"] = True
++
++        for cmd in self.commands.__dict__.values():
++            cmd.debug_vis = True
++
++
++@configclass
++class PiPlusH0WMixedFaceUpDirectFaceDownFallRecoveryEnvCfg_PLAY(PiPlusH0WMixedFaceUpDirectFaceDownFallRecoveryEnvCfg):
++    scene: beyondmimic_cfg.BeyondMimicSceneCfg = beyondmimic_cfg.BeyondMimicSceneCfg(
++        num_envs=1,
++        env_spacing=2.5,
++        robot=PIPLUS_H0W_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot"),
++        robot_reference=PIPLUS_H0W_CFG.replace(prim_path="{ENV_REGEX_NS}/RobotReference"),
++        motion_reference=mixed_faceup_direct_facedown_motion_reference_cfg.replace(debug_vis=True),
++    )
++    viewer: ViewerCfg = ViewerCfg(
++        eye=[4.0, 0.75, 1.0],
++        lookat=[0.0, 0.75, 0.0],
++        origin_type="asset_root",
++        asset_name="robot",
++    )
++
++    def __post_init__(self):
++        super().__post_init__()
++
++        motion_name = list(self.scene.motion_reference.motion_buffers.keys())[0]
++        self.scene.motion_reference.motion_buffers[motion_name].motion_start_from_middle_range = [0.0, 0.0]
++        self.scene.motion_reference.motion_buffers[motion_name].motion_bin_length_s = None
++        self.scene.motion_reference.visualizing_marker_types = ["relative_links"]
++        self.episode_length_s = 6000.0
++        self.curriculum.beyond_adaptive_sampling = None
++        self.events.bin_fail_counter_smoothing = None
++
++        for term in self.terminations.__dict__.values():
++            if term is None:
++                continue
++            if "print_reason" in term.params:
++                term.params["print_reason"] = True
++
++        for cmd in self.commands.__dict__.values():
++            cmd.debug_vis = True
+diff --git a/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/motions/fall_recovery_h0w_facedown.yaml b/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/motions/fall_recovery_h0w_facedown.yaml
+index 33a5a36..9fcf812 100644
+--- a/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/motions/fall_recovery_h0w_facedown.yaml
++++ b/source/HT_lab/HT_lab/tasks/fall_recovery/config/PiPlus_S_12L8A0G2H0W/motions/fall_recovery_h0w_facedown.yaml
+@@ -1,2 +1,2 @@
+ selected_files:
+-  - piplus_facedown_preview5_retargeted.npz
++  - fallAndGetUp2_subject2_piplus_facedown_800_1040_retargeted.npz

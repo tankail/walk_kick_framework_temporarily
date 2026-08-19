@@ -1,0 +1,7 @@
+# Yesense IMU 配置文件
+imu:
+  pid: 0x5543           # Product ID (USB产品ID)
+  vid: 0x5953           # Vendor ID (USB供应商ID)
+  device: "/dev/ttyACM" # 串口设备前缀
+  baud_rate: 460800     # 波特率
+  lcm_enabled: false    # LCM使能（在ROS2中通常不需要）

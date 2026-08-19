@@ -1,0 +1,24 @@
+name: "Panthear-HT-7dof"
+
+dofs: 7
+
+max_power: 300.0 # 最大功率限制
+max_power_duration: 3.0 # 最大功率持续时间限制
+
+kinematics_plugin:
+  name: ""
+
+joint_names: [
+"joint_1", "joint_2", "joint_3", "joint_4", "joint_5", "joint_6", "joint_7"]
+
+map_index: [ 0,  1,  2,  3,  4,  5, 6]
+
+direction: [1, 1, 1, 1, 1, 1, 1]
+
+upper: [ 2.4,  3.2,  4.0,  1.6,  1.7,  2.5,  2.00]
+lower: [-2.4, -0.1, -0.1, -1.6, -1.7, -2.5,  0.00]
+
+kp: [30, 30, 30, 30, 30, 30, 30]
+kd: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+urdf_offset: [ 0.00,  0.00,  0.00,  0.00,  0.00,  0.00, 0.00]

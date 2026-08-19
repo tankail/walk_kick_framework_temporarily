@@ -1,0 +1,16 @@
+- production_type: "custom"
+  multi_waypoint_config:
+    - name: "cheer"
+      key: "rt+a"
+      remark: "双手欢呼"
+
+    - name: "hello"
+      key: "rt+x"
+      remark: "单手打招呼"
+
+  series_waypoint_config:
+
+  policy_change_config:
+    - name: "small_kick"
+      remark: "小脚踢球"
+      key: "x"

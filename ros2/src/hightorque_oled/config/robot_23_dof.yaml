@@ -1,0 +1,147 @@
+robot:
+  robot_name: "test_robot_23dof"
+  Serial_Type: "/dev/ttyACM"
+  Seial_baudrate: 4000000
+  canport_error_output_flag: false
+  control_type: 9
+  imu_limt_flag: false
+  imu_dir: false
+  imu_limt_num: 1.0
+  motor_timeout_ms: 0
+  board_special_flag: false
+  CANboard_num: 1
+  CANboard:
+    No_1_CANboard:
+      CANport_num: 4
+      CANport:
+        CANport_1:
+          serial_id: 1
+          motor_num: 6
+          motor:
+            motor1:
+                type: "5047_36_2"
+                id: 1
+                name: "motor_1"
+                num: 1
+            motor2:
+                type: "5047_36_2"
+                id: 2
+                name: "motor_2"
+                num: 2
+            motor3:
+                type: "5047_36_2"
+                id: 3
+                name: "motor_3"
+                num: 3
+            motor4:
+                type: "5047_36_2"
+                id: 4
+                name: "motor_4"
+                num: 4
+            motor5:
+                type: "5047_36_2"
+                id: 5
+                name: "motor_5"
+                num: 5
+            motor6:
+                type: "5047_36_2"
+                id: 6
+                name: "motor_6"
+                num: 6
+        CANport_2:
+          serial_id: 2
+          motor_num: 6
+          motor:
+            motor1:
+                type: "5047_36_2"
+                id: 1
+                name: "motor_7"
+                num: 1
+            motor2:
+                type: "5047_36_2"
+                id: 2
+                name: "motor_8"
+                num: 2
+            motor3:
+                type: "5047_36_2"
+                id: 3
+                name: "motor_9"
+                num: 3
+            motor4:
+                type: "5047_36_2"
+                id: 4
+                name: "motor_10"
+                num: 4
+            motor5:
+                type: "5047_36_2"
+                id: 5
+                name: "motor_11"
+                num: 5
+            motor6:
+                type: "5047_36_2"
+                id: 6
+                name: "motor_12"
+                num: 6
+        CANport_3:
+          serial_id: 3
+          motor_num: 6
+          motor:
+            motor1:
+                type: "5047_36_2"
+                id: 1
+                name: "motor_13"
+                num: 1
+            motor2:
+                type: "5047_36_2"
+                id: 2
+                name: "motor_14"
+                num: 2
+            motor3:
+                type: "5047_36_2"
+                id: 3
+                name: "motor_15"
+                num: 3
+            motor4:
+                type: "5047_36_2"
+                id: 4
+                name: "motor_16"
+                num: 4
+            motor5:
+                type: "5047_36_2"
+                id: 5
+                name: "motor_17"
+                num: 5
+            motor6:
+                type: "5047_36_2"
+                id: 6
+                name: "motor_18"
+                num: 6
+        CANport_4:
+          serial_id: 4
+          motor_num: 5
+          motor:
+            motor1:
+                type: "5047_36_2"
+                id: 1
+                name: "motor_19"
+                num: 1
+            motor2:
+                type: "5047_36_2"
+                id: 2
+                name: "motor_20"
+                num: 2
+            motor3:
+                type: "5047_36_2"
+                id: 3
+                name: "motor_21"
+                num: 3
+            motor4:
+                type: "5047_36_2"
+                id: 4
+                name: "motor_22"
+                num: 4
+            motor5:
+                type: "5047_36_2"
+                id: 5
+                name: "motor_23"
+                num: 5

@@ -1,0 +1,6 @@
+# 查询可用电机服务
+string node_name        # 节点名称（可选，如果提供则返回该节点已控制的电机+空闲电机）
+---
+int32[] motor_ids       # 可控制的电机ID列表
+string[] motor_names    # 电机名称
+uint8[] motor_status    # 电机状态（0空闲/x占用次数）

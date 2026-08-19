@@ -1,0 +1,34 @@
+# Example robot configuration file for hightorque_oled (ROS2 format)
+# ROS2 requires the 'ros__parameters' key for parameter files
+# This file contains motor and CAN bus configuration
+
+# Use /**: to apply parameters to all nodes
+/**:
+  ros__parameters:
+    # Robot configuration
+    robot:
+      CANboard:
+        No_1_CANboard:
+          # Number of CAN ports
+          CANport_num: 4
+
+          # CAN port configurations
+          CANport:
+            CANport_1:
+              serial_id: 1
+              motor_num: 7
+
+            CANport_2:
+              serial_id: 2
+              motor_num: 6
+
+            CANport_3:
+              serial_id: 3
+              motor_num: 5
+
+            CANport_4:
+              serial_id: 4
+              motor_num: 5
+
+    # OLED configuration (can also be set via launch argument)
+    # oled_uart_dev_name: "/dev/ttyS4"

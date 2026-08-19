@@ -1,0 +1,68 @@
+#ROS 项目专属 pre - commit 配置：全Repo化（C++ 20 + XML + Python + Launch）
+#团队统一：所有工具自动下载指定版本，无本地环境依赖，一键同步
+repos:
+#-- -- -- -- -- -- -- -- -- -- -- -- -- 通用文件规范检查（Python标准正则，无错误） -- -- -- -- -- -- -- -- -- -- -- -- --
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.6.0
+  hooks:
+  - id: trailing-whitespace
+    exclude: (?x)^(build/|install/|log/|devel/|.*\.png|.*\.jpg|.*\.bin|.*\.pcd|.*\.bag)$
+  - id: end-of-file-fixer
+    exclude: (?x)^(build/|install/|log/|devel/|.*\.png|.*\.jpg|.*\.bin|.*\.pcd|.*\.bag)$
+  - id: check-yaml
+    files: \.(yaml|yml)$
+    exclude: build/|install/|log/|devel/
+  - id: check-xml
+    files: \.(xml|launch)$
+    exclude: build/|install/|log/|devel/
+
+#-- -- -- -- -- -- -- -- -- -- -- -- -- C ++ 格式化（Repo版clang - format 20.0.0，团队统一） -- -- -- -- -- -- -- -- -- -- -- -- --
+- repo: https://github.com/pre-commit/mirrors-clang-format
+  rev: v19.1.0 
+  hooks:
+  - id: clang-format
+    name: clang-format (repo-based v19+)
+    # 核心参数：依然读取项目根目录的 .clang-format
+    args: ["--style=file", "--fallback-style=Google", "-i", "--verbose"]
+    files: \.(c|cpp|cxx|cc|h|hpp|hxx)$
+    exclude: |
+      (?x)^(
+          build/|install/|log/|devel/|
+          third_party/|vendor/|
+          .*\.so|.*\.a|.*\.o|.*\.cmake
+      )$
+#-- -- -- -- -- -- -- -- -- -- -- -- -- Python 格式化（含.launch.py，Repo版） -- -- -- -- -- -- -- -- -- -- -- -- --
+- repo: https://github.com/psf/black
+  rev: 24.8.0
+  hooks:
+  - id: black
+    name: black (python formatter)
+    args: ["--line-length=120", "--target-version=py38", "--skip-string-normalization"]
+    # 修复点：pre-commit 官方识别的标签只有 [python]，它会自动包含 .py
+    types: [python]
+    # 如果你想包含特殊的 .launch.py，建议用 files 正则，因为 types 不支持自定义后缀
+    files: \.(py|launch\.py)$
+    exclude: (?x)^(build/|install/|log/|devel/|third_party/)
+
+- repo: https://github.com/PyCQA/isort
+  rev: 5.13.2
+  hooks:
+  - id: isort
+    name: isort (python import sorter)
+    args: ["--line-length=120", "--profile=black"]
+    types: [python]
+    files: \.(py|launch\.py)$
+    exclude: (?x)^(build/|install/|log/|devel/|third_party/)
+#-- -- -- -- -- -- -- -- -- -- -- -- -- 全局排除规则（所有钩子生效，Python标准正则） -- -- -- -- -- -- -- -- -- -- -- -- --
+exclude: |
+  (?x)^(
+      build/|install/|log/|devel/|
+      install_isolated/|build_isolated/|
+      third_party/|vendor/|docs/|
+      .*\.png|.*\.jpg|.*\.bin|.*\.pcd|.*\.bag|.*\.csv|
+      .*\.so|.*\.a|.*\.o|.*\.cmake|.*\.pc|
+      .git/|.vscode/|.idea/|
+      .*\.pyc|__pycache__/|
+      sim2real.tar.gz|.*\.zip|.*\.tar|
+      .*\.tar\.gz|.gitignore|version.json|.pre-commit-config.yaml
+  )$

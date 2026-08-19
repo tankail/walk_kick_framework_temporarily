@@ -1,0 +1,21 @@
+# 申请电机控制权服务
+uint8 POSITION_MODE = 0
+uint8 TORQUE_MODE = 1
+uint8 MIXED_MODE = 2
+
+# 超时被动释放模式常量
+uint8 KEEP_MODE = 0        # 保持原状（继续使用当前kp/kd保持位置）
+uint8 DAMPING_MODE = 1     # 阻尼模式（小kp/kd，可手动移动）
+uint8 ZERO_TORQUE_MODE = 2 # 不控制（零力矩，完全放松）
+
+string node_name           # 申请控制权的节点名称（必填）
+int32[] motor_ids          # 需要控制的电机ID
+uint8 control_mode         # 控制模式（位置/力矩/混合）
+uint8 default_behavior     # 未控制电机的行为（保持/零力/阻尼）
+int32 timeout_ms           # 超时时间（毫秒）
+float32[] default_kp       # 默认kp值（可选）
+float32[] default_kd       # 默认kd值（可选）
+---
+bool success
+string uuid                # 控制会话UUID
+string message             # 错误信息

@@ -1,0 +1,13 @@
+# 释放电机控制权服务
+
+# 主动释放模式常量
+uint8 KEEP_MODE = 0        # 保持原状（继续使用当前kp/kd保持位置）
+uint8 DAMPING_MODE = 1     # 阻尼模式（小kp/kd，可手动移动）
+uint8 ZERO_TORQUE_MODE = 2 # 不控制（零力矩，完全放松）
+
+string node_name           # 释放控制权的节点名称（必填，用于验证）
+string uuid                # 控制会话UUID
+uint8 release_mode         # 释放模式（默认为0-保持原状）
+---
+bool success
+string message

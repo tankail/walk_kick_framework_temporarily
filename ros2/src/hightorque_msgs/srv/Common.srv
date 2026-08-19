@@ -1,0 +1,8 @@
+# Request部分
+bool enable
+string str
+---
+# Response部分
+bool result
+string message
+string error_message

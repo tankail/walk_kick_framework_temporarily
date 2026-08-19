@@ -1,0 +1,114 @@
+```
+Hightorque Integration Architecture
+====================================
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                        Your Application                              │
+│  (hightorque_test.py / hightorque_agent.py / your_script.py)        │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             │ creates & uses
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                      HightorqueNode                                  │
+│                  (ros_nodes/hightorque.py)                          │
+│                                                                      │
+│  ┌────────────────────────────────────────────────────────────┐   │
+│  │  Inherits from RealNode (base.py)                          │   │
+│  │  - joint_pos_, joint_vel_  (observation buffers)           │   │
+│  │  - send_action()           (high-level interface)          │   │
+│  │  - Safety checks & torque limits                           │   │
+│  └────────────────────────────────────────────────────────────┘   │
+│                                                                      │
+│  Implements:                                                         │
+│  ├─ _joint_state_callback()    : Update joint states                │
+│  ├─ _publish_motor_cmd()       : Send motor commands                │
+│  ├─ _turn_off_motors()         : Release control                    │
+│  ├─ _request_control()         : Request motor control              │
+│  └─ _release_control()         : Release motor control              │
+└──────────┬───────────────────────────────────┬──────────────────────┘
+           │                                   │
+           │ ROS2 Topics/Services              │
+           │                                   │
+           ▼                                   ▼
+┌──────────────────────────┐      ┌──────────────────────────┐
+│   Subscribe              │      │   Publish                │
+│   /joint_states          │      │   /control_command       │
+│   (sensor_msgs/          │      │   (MotorControlCommand)  │
+│    JointState)           │      │                          │
+└──────────┬───────────────┘      └────────┬─────────────────┘
+           │                               │
+           │                               │
+           │         ┌─────────────────────┴──────────────┐
+           │         │   Service Clients                   │
+           │         │   /request_control                  │
+           │         │   /release_control                  │
+           │         └─────────────────────┬───────────────┘
+           │                               │
+           │                               │
+           ▼                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    hightorque_midware                                │
+│                   (motor_manager node)                               │
+│                                                                      │
+│  ┌────────────────────────────────────────────────────────────┐   │
+│  │  Motor Control Manager                                      │   │
+│  │  - Manages control sessions (UUID-based)                    │   │
+│  │  - Publishes joint_states                                   │   │
+│  │  - Accepts control commands                                 │   │
+│  │  - Handles control request/release                          │   │
+│  └────────────────────────────────────────────────────────────┘   │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │
+                               │ CAN Bus / Hardware Interface
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    Physical Robot Motors                             │
+│              (PiPlus_S_12L10A0G0H1W - 23 DOF)                       │
+└─────────────────────────────────────────────────────────────────────┘
+
+
+Data Flow
+=========
+
+1. State Update Flow:
+   Motors → motor_manager → /joint_states → HightorqueNode._joint_state_callback()
+   → Updates joint_pos_, joint_vel_ (in simulation order)
+
+2. Control Flow:
+   Your Code → send_action() → _publish_motor_cmd() → /control_command
+   → motor_manager → Motors
+
+3. Control Session Flow:
+   start_ros_handlers() → _request_control() → motor_manager
+   → Returns UUID → Used in all commands
+   → _turn_off_motors() → _release_control() → motor_manager
+
+
+Joint Mapping
+=============
+
+Simulation Order (Isaac Lab, etc.)     Real Robot Order (motor_manager)
+─────────────────────────────────      ────────────────────────────────
+sim_joint_names[0]  ──┐                     ┌── real_joint_names[0]
+sim_joint_names[1]  ──┤                     ├── real_joint_names[1]
+sim_joint_names[2]  ──┤  joint_map[]        ├── real_joint_names[2]
+       ...          ──┼─────────────────────┤        ...
+sim_joint_names[22] ──┘                     └── real_joint_names[22]
+
+                       joint_signs[] (1 or -1)
+                       handles direction reversal
+
+
+Configuration (robot_cfgs.py)
+==============================
+
+PiPlus_S_12L10A0G0H1W:
+  - NUM_JOINTS: 23
+  - sim_joint_names: [l_hip_pitch_joint, r_hip_pitch_joint, ...]
+  - real_joint_names: [l_hip_pitch_joint, r_hip_pitch_joint, ...]
+  - joint_map: [0, 1, 2, ..., 22]  (identity mapping)
+  - joint_signs: [1, 1, 1, ..., 1]
+  - joint_limits_high/low: Position limits
+  - torque_limits: Torque limits
+```
